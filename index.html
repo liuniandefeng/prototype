@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>积分运营平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-bg: #1e1e2e;
+            --sidebar-hover: #2a2a3e;
+            --sidebar-active-bg: rgba(14, 165, 233, 0.12);
+            --sidebar-active-border: #0ea5e9;
+            --sidebar-text: rgba(255,255,255,0.55);
+            --sidebar-text-hover: rgba(255,255,255,0.85);
+            --sidebar-text-active: #0ea5e9;
+            --sidebar-group-title: rgba(255,255,255,0.28);
+            --header-bg: #ffffff;
+            --header-border: #e2e8f0;
+            --body-bg: #f1f5f9;
+            --primary: #0ea5e9;
+            --primary-hover: #38bdf8;
+            --primary-light: rgba(14, 165, 233, 0.08);
+            --primary-glow: rgba(14, 165, 233, 0.15);
+            --accent: #f97316;
+            --accent-hover: #fb923c;
+            --success-bg: #ecfdf5;
+            --success-text: #059669;
+            --success-border: #a7f3d0;
+            --warning-bg: #fffbeb;
+            --warning-text: #d97706;
+            --warning-border: #fde68a;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --table-header-bg: #f8fafc;
+            --table-hover-bg: rgba(14, 165, 233, 0.04);
+            --sidebar-width: 220px;
+            --header-height: 56px;
+            --radius: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--body-bg);
+            color: var(--text);
+            font-size: 14px;
+            overflow: hidden;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .layout { display: flex; height: 100vh; }
+
+        /* ========== 左侧导航菜单 ========== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        .sidebar::-webkit-scrollbar { width: 3px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+        .sidebar-logo {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+            gap: 10px;
+        }
+        .sidebar-logo .logo-icon {
+            width: 30px; height: 30px;
+            background: linear-gradient(135deg, var(--primary), #06b6d4);
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .sidebar-logo .logo-icon svg { width: 16px; height: 16px; fill: #fff; }
+        .sidebar-logo .logo-text {
+            color: rgba(255,255,255,0.9); font-size: 15px; font-weight: 600;
+            letter-spacing: 0.3px; white-space: nowrap;
+            font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+        }
+
+        .menu-group { padding: 6px 0; }
+        .menu-group-title {
+            padding: 18px 20px 8px; font-size: 11px;
+            color: var(--sidebar-group-title); text-transform: uppercase;
+            letter-spacing: 1.5px; white-space: nowrap; font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .menu-item {
+            display: flex; align-items: center; height: 42px;
+            padding: 0 20px; color: var(--sidebar-text);
+            cursor: pointer; transition: all 0.2s ease;
+            text-decoration: none; white-space: nowrap;
+            position: relative; font-size: 13.5px;
+            margin: 1px 8px; border-radius: 6px;
+        }
+        .menu-item:hover { color: var(--sidebar-text-hover); background: var(--sidebar-hover); }
+        .menu-item.active { color: var(--sidebar-text-active); background: var(--sidebar-active-bg); }
+        .menu-item.active::before {
+            content: ''; position: absolute; left: -8px; top: 8px; bottom: 8px;
+            width: 3px; background: var(--sidebar-active-border); border-radius: 0 3px 3px 0;
+        }
+        .menu-item .menu-icon {
+            width: 18px; height: 18px; margin-right: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; opacity: 0.7;
+        }
+        .menu-item.active .menu-icon { opacity: 1; }
+        .menu-item .menu-icon svg {
+            width: 16px; height: 16px; stroke: currentColor;
+            stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .menu-item .menu-label { font-size: 13.5px; font-weight: 500; pointer-events: none; }
+
+        /* ========== 右侧内容区 ========== */
+        .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+        .header {
+            height: var(--header-height); background: var(--header-bg);
+            border-bottom: 1px solid var(--header-border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 24px; flex-shrink: 0;
+        }
+        .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
+        .breadcrumb .sep { color: var(--text-muted); font-size: 12px; }
+        .breadcrumb .current { color: var(--text); font-weight: 600; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .header-icon-btn {
+            width: 34px; height: 34px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-secondary); transition: all 0.2s;
+            background: transparent; border: none; position: relative;
+        }
+        .header-icon-btn:hover { background: var(--body-bg); color: var(--primary); }
+        .header-icon-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .header-icon-btn .badge {
+            position: absolute; top: 4px; right: 4px;
+            width: 8px; height: 8px; background: var(--accent); border-radius: 50%; border: 2px solid var(--header-bg);
+        }
+        .user-info { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 8px 4px 4px; border-radius: 8px; transition: background 0.2s; }
+        .user-info:hover { background: var(--body-bg); }
+        .user-avatar {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), #06b6d4);
+            color: #fff; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 600;
+        }
+        .user-name { font-size: 13px; color: var(--text); font-weight: 500; }
+
+        .content { flex: 1; overflow-y: auto; padding: 20px 24px; }
+        .content::-webkit-scrollbar { width: 6px; }
+        .content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        /* ========== 视图切换 ========== */
+        .view { display: none; }
+        .view.active { display: block; animation: viewFadeIn 0.3s ease; }
+        @keyframes viewFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ========== 搜索栏 ========== */
+        .search-bar {
+            background: #fff; padding: 16px 20px; border-radius: var(--radius);
+            margin-bottom: 16px; display: flex; align-items: center;
+            gap: 12px; box-shadow: var(--card-shadow); flex-wrap: wrap;
+        }
+        .search-input, .search-select {
+            height: 36px; padding: 0 12px; border: 1px solid var(--border);
+            border-radius: 6px; font-size: 13px; outline: none;
+            transition: all 0.25s ease;
+            font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+            color: var(--text); background: #fff;
+        }
+        .search-input { width: 200px; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-select {
+            width: 160px; cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+        }
+        .search-input:focus, .search-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+
+        .btn {
+            height: 36px; padding: 0 18px; border-radius: 6px; font-size: 13px;
+            cursor: pointer; border: none; display: inline-flex;
+            align-items: center; justify-content: center; gap: 6px;
+            transition: all 0.2s ease;
+            font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+            font-weight: 500; white-space: nowrap;
+        }
+        .btn svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-hover); box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3); }
+        .btn-accent { background: var(--accent); color: #fff; }
+        .btn-accent:hover { background: var(--accent-hover); box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3); }
+
+        /* ========== 表格容器 ========== */
+        .table-container {
+            background: #fff; border-radius: var(--radius);
+            overflow-x: auto; box-shadow: var(--card-shadow);
+        }
+        .table-container::-webkit-scrollbar { height: 6px; }
+        .table-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        table { width: 100%; border-collapse: collapse; min-width: 1400px; }
+        th {
+            background: var(--table-header-bg); padding: 12px 16px; text-align: left;
+            font-weight: 600; color: var(--text-secondary); border-bottom: 1px solid var(--border);
+            white-space: nowrap; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.5px;
+            font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+        }
+        td { padding: 11px 16px; border-bottom: 1px solid var(--border-light); color: var(--text); font-size: 13px; font-weight: 400; }
+        tbody tr { transition: background 0.15s ease; }
+        tbody tr:hover td { background: var(--table-hover-bg); }
+        tbody tr:last-child td { border-bottom: none; }
+
+        /* 状态标签 */
+        .status-tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; line-height: 1.5;
+        }
+        .status-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+        .status-completed { background: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-border); }
+        .status-completed::before { background: var(--success-text); }
+        .status-pending { background: var(--warning-bg); color: var(--warning-text); border: 1px solid var(--warning-border); }
+        .status-pending::before { background: var(--warning-text); }
+        .status-active { background: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-border); }
+        .status-active::before { background: var(--success-text); }
+
+        /* 操作按钮 */
+        .action-btns { display: flex; gap: 8px; }
+        .btn-small {
+            height: 28px; padding: 0 12px; font-size: 12px; border-radius: 5px;
+            cursor: pointer; transition: all 0.2s ease;
+            font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+            font-weight: 500; display: inline-flex; align-items: center; gap: 4px;
+        }
+        .btn-small svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .btn-edit { background: var(--primary); color: #fff; border: none; }
+        .btn-edit:hover { background: var(--primary-hover); box-shadow: 0 2px 6px rgba(14, 165, 233, 0.25); }
+        .btn-view { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+        .btn-view:hover { background: var(--primary-light); }
+        .btn-config { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+        .btn-config:hover { background: var(--primary-light); }
+
+        /* ========== 分页 ========== */
+        .pagination {
+            display: flex; justify-content: flex-end; align-items: center;
+            padding: 14px 20px; gap: 6px; border-top: 1px solid var(--border-light);
+        }
+        .page-info { color: var(--text-muted); font-size: 13px; margin-right: auto; font-weight: 500; }
+        .page-btn {
+            min-width: 34px; height: 34px; padding: 0 8px; border: 1px solid var(--border);
+            background: #fff; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500;
+            transition: all 0.2s ease; font-family: 'DM Sans', sans-serif; color: var(--text-secondary);
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .page-btn:hover:not(.active):not(:disabled) { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .page-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 2px 6px rgba(14, 165, 233, 0.3); }
+        .page-btn:disabled { cursor: not-allowed; color: #cbd5e1; border-color: #e2e8f0; background: #f8fafc; }
+        .page-ellipsis { min-width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 13px; letter-spacing: 1px; }
+
+        .index-col { width: 60px; text-align: center; color: var(--text-muted); font-weight: 500; font-family: 'DM Sans', sans-serif; }
+        .empty-value { color: #c0c8d4; font-weight: 400; }
+
+        /* ========== 入场动画 ========== */
+        @keyframes menuFadeIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+        .menu-item { opacity: 0; animation: menuFadeIn 0.35s ease forwards; }
+        .menu-group .menu-item:nth-child(1) { animation-delay: 0.05s; }
+        .menu-group .menu-item:nth-child(2) { animation-delay: 0.1s; }
+
+        @keyframes rowFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        tbody tr { opacity: 0; animation: rowFadeIn 0.3s ease forwards; }
+        tbody tr:nth-child(1)  { animation-delay: 0.08s; }
+        tbody tr:nth-child(2)  { animation-delay: 0.12s; }
+        tbody tr:nth-child(3)  { animation-delay: 0.16s; }
+        tbody tr:nth-child(4)  { animation-delay: 0.20s; }
+        tbody tr:nth-child(5)  { animation-delay: 0.24s; }
+        tbody tr:nth-child(6)  { animation-delay: 0.28s; }
+        tbody tr:nth-child(7)  { animation-delay: 0.32s; }
+        tbody tr:nth-child(8)  { animation-delay: 0.36s; }
+        tbody tr:nth-child(9)  { animation-delay: 0.40s; }
+        tbody tr:nth-child(10) { animation-delay: 0.44s; }
+        tbody tr:nth-child(11) { animation-delay: 0.48s; }
+        tbody tr:nth-child(12) { animation-delay: 0.52s; }
+        tbody tr:nth-child(13) { animation-delay: 0.56s; }
+        tbody tr:nth-child(14) { animation-delay: 0.60s; }
+        tbody tr:nth-child(15) { animation-delay: 0.64s; }
+
+        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .search-bar { animation: cardFadeIn 0.4s ease forwards; }
+        .table-container { animation: cardFadeIn 0.4s ease 0.1s forwards; opacity: 0; }
+
+        /* ========== 弹窗 Modal ========== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.45); display: none;
+            align-items: center; justify-content: center; z-index: 1000;
+            backdrop-filter: blur(4px); animation: fadeIn 0.2s ease;
+        }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal {
+            background: #fff; border-radius: 12px; width: 90%; max-width: 560px;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15); animation: modalSlideUp 0.3s ease;
+        }
+        @keyframes modalSlideUp { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--border-light); }
+        .modal-title { font-size: 17px; font-weight: 600; color: var(--text); font-family: 'Noto Sans SC', sans-serif; }
+        .modal-close { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; background: transparent; color: var(--text-muted); transition: all 0.2s; }
+        .modal-close:hover { background: #f1f5f9; color: var(--text); }
+        .modal-close svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .modal-body { padding: 24px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); font-family: 'Noto Sans SC', sans-serif; }
+        .form-label .required { color: #ef4444; margin-left: 2px; }
+        .form-input, .form-select {
+            height: 38px; padding: 0 12px; border: 1px solid var(--border);
+            border-radius: 6px; font-size: 13px; outline: none; transition: all 0.25s ease;
+            font-family: 'DM Sans', 'Noto Sans SC', sans-serif; color: var(--text); background: #fff; width: 100%;
+        }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-select { cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+        }
+        .form-input:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+        .form-input:disabled, .form-select:disabled { background: #f8fafc; color: var(--text-muted); cursor: not-allowed; }
+        .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+        /* 区域管理创建弹窗表单 */
+        .region-form { display: flex; flex-direction: column; gap: 16px; }
+        .region-form .form-row { display: flex; align-items: center; gap: 16px; }
+        .region-form .form-row .form-label { width: 110px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 500; color: var(--text-secondary); font-family: 'Noto Sans SC', sans-serif; }
+        .region-form .form-row .form-label .required { color: #ef4444; margin-left: 2px; }
+        .region-form .form-row .form-input,
+        .region-form .form-row .form-select { flex: 1; }
+
+        .modal-footer { display: flex; justify-content: flex-end; gap: 10px; padding: 16px 24px; border-top: 1px solid var(--border-light); }
+        .btn-cancel { height: 36px; padding: 0 18px; border-radius: 6px; font-size: 13px; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--text-secondary); font-family: 'DM Sans', 'Noto Sans SC', sans-serif; font-weight: 500; transition: all 0.2s; }
+        .btn-cancel:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .btn-confirm { height: 36px; padding: 0 18px; border-radius: 6px; font-size: 13px; cursor: pointer; border: none; background: var(--primary); color: #fff; font-family: 'DM Sans', 'Noto Sans SC', sans-serif; font-weight: 500; transition: all 0.2s; }
+        .btn-confirm:hover { background: var(--primary-hover); box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3); }
+
+        /* Toast */
+        .toast {
+            position: fixed; top: 72px; right: 24px; padding: 12px 20px; border-radius: 8px;
+            background: var(--success-text); color: #fff; font-size: 13px; font-weight: 500;
+            box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3); display: none; align-items: center; gap: 8px;
+            z-index: 2000; animation: toastSlide 0.3s ease;
+        }
+        .toast.show { display: flex; }
+        @keyframes toastSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- 左侧导航菜单 -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="none">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" fill="rgba(255,255,255,0.9)"/>
+                        <path d="M2 17l10 5 10-5" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12l10 5 10-5" stroke="rgba(255,255,255,0.85)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="logo-text">积分运营平台</div>
+            </div>
+
+            <div class="menu-group">
+                <a class="menu-item active" href="#" onclick="switchView('customer')">
+                    <div class="menu-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="menu-label">客户管理</div>
+                </a>
+                <a class="menu-item" href="#" onclick="switchView('region')">
+                    <div class="menu-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <div class="menu-label">区域管理</div>
+                </a>
+                <a class="menu-item" href="#" onclick="switchView('dailyBill')">
+                    <div class="menu-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <div class="menu-label">每日账单数据</div>
+                </a>
+            </div>
+        </aside>
+
+        <!-- 右侧内容区 -->
+        <div class="main-area">
+            <!-- 顶部Header -->
+            <header class="header">
+                <div class="breadcrumb" id="breadcrumb">
+                    <span>首页</span>
+                    <span class="sep">/</span>
+                    <span>业务管理</span>
+                    <span class="sep">/</span>
+                    <span class="current">客户管理</span>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon-btn">
+                        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="badge"></span>
+                    </button>
+                    <div class="user-info">
+                        <div class="user-avatar">管</div>
+                        <div class="user-name">管理员</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 内容 -->
+            <div class="content">
+                <!-- ========== 客户管理视图 ========== -->
+                <div class="view active" id="customer-view">
+                    <!-- 搜索栏 -->
+                    <div class="search-bar">
+                        <input type="text" class="search-input" placeholder="请输入客户名称">
+                        <select class="search-select">
+                            <option value="">请选择客户ID</option>
+                            <option value="CUST-001">CUST-001</option>
+                            <option value="CUST-002">CUST-002</option>
+                            <option value="CUST-003">CUST-003</option>
+                            <option value="CUST-004">CUST-004</option>
+                            <option value="CUST-005">CUST-005</option>
+                            <option value="CUST-006">CUST-006</option>
+                            <option value="CUST-007">CUST-007</option>
+                            <option value="CUST-008">CUST-008</option>
+                            <option value="CUST-009">CUST-009</option>
+                            <option value="CUST-010">CUST-010</option>
+                            <option value="CUST-011">CUST-011</option>
+                            <option value="CUST-012">CUST-012</option>
+                            <option value="CUST-013">CUST-013</option>
+                            <option value="CUST-014">CUST-014</option>
+                            <option value="CUST-015">CUST-015</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择平台</option>
+                            <option value="qujiabao">趣家宝平台</option>
+                            <option value="yizhigou">壹直购平台</option>
+                            <option value="yixincar">伊心享车平台</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择委托公司</option>
+                            <option value="PA广东分公司-费用处理">PA广东分公司-费用处理</option>
+                            <option value="PA广东分公司">PA广东分公司</option>
+                            <option value="广东RB">广东RB</option>
+                            <option value="南菱集团">南菱集团</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择区域</option>
+                            <option value="PA广分-惠州">PA广分-惠州</option>
+                            <option value="PA广分-揭阳">PA广分-揭阳</option>
+                            <option value="7月后-PA广分-市区-嘉誉">7月后-PA广分-市区-嘉誉</option>
+                            <option value="PA广分-中山">PA广分-中山</option>
+                            <option value="7月后-PA广分-惠州">7月后-PA广分-惠州</option>
+                            <option value="PA广分-湛江-广州康众">PA广分-湛江-广州康众</option>
+                            <option value="广东平安增城车商一部-中升增悦">广东平安增城车商一部-中升增悦</option>
+                            <option value="PA广分-花都-广州嘉美">PA广分-花都-广州嘉美</option>
+                            <option value="广东平安集团二部-广州广汽商贸长润汽车">广东平安集团二部-广州广汽商贸长润汽车</option>
+                            <option value="RB-广州区域-94折">RB-广州区域-94折</option>
+                            <option value="PA广分-增城-广州康众">PA广分-增城-广州康众</option>
+                            <option value="南菱-广州南菱旗盛汽车有限公司">南菱-广州南菱旗盛汽车有限公司</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择渠道</option>
+                            <option value="车险部">车险部</option>
+                            <option value="创展">创展</option>
+                            <option value="综代">综代</option>
+                            <option value="代理">代理</option>
+                            <option value="综拓">综拓</option>
+                            <option value="车商">车商</option>
+                            <option value="BTP">BTP</option>
+                            <option value="RB-电销渠道">RB-电销渠道</option>
+                            <option value="南菱渠道">南菱渠道</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择积分</option>
+                            <option value="积分上账">积分上账</option>
+                            <option value="积分发放">积分发放</option>
+                            <option value="积分消费">积分消费</option>
+                            <option value="不统计">不统计</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择批量</option>
+                            <option value="批量分发">批量分发</option>
+                            <option value="不统计">不统计</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择状态</option>
+                            <option value="已完成">已完成</option>
+                            <option value="待完善">待完善</option>
+                        </select>
+                        <button class="btn btn-primary">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <span>查找</span>
+                        </button>
+                    </div>
+
+                    <!-- 表格 -->
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="index-col">序号</th>
+                                    <th>客户ID</th>
+                                    <th>关联客户名称</th>
+                                    <th>平台</th>
+                                    <th>委托公司</th>
+                                    <th>区域</th>
+                                    <th>渠道</th>
+                                    <th>积分</th>
+                                    <th>批量</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="index-col">1</td><td>CUST-001</td><td>华北分公司客户</td><td>趣驾平台</td><td>PA广东分公司-费用处理</td><td>PA广分-惠州</td><td>车险部</td><td>积分发放</td><td>批量分发</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">2</td><td class="empty-value">-</td><td class="empty-value">-</td><td>壹直购平台</td><td>PA广东分公司-费用处理</td><td>PA广分-揭阳</td><td>创展</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-pending">待完善</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">3</td><td>CUST-003</td><td>华南客户组</td><td>汽集平台</td><td>PA广东分公司</td><td>7月后-PA广分-市区-嘉誉</td><td>综代</td><td>积分消费</td><td>不统计</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">4</td><td class="empty-value">-</td><td class="empty-value">-</td><td>壹直购平台</td><td>PA广东分公司</td><td>PA广分-中山</td><td>代理</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-pending">待完善</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">5</td><td>CUST-005</td><td>华中联合客户</td><td>壹直购平台</td><td>PA广东分公司</td><td>7月后-PA广分-惠州</td><td>综拓</td><td>积分上账</td><td>批量分发</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">6</td><td>CUST-006</td><td>东北分公司客户</td><td>壹直购平台</td><td>PA广东分公司</td><td>PA广分-湛江-广州康众</td><td>综代</td><td>积分发放</td><td>批量分发</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">7</td><td class="empty-value">-</td><td class="empty-value">-</td><td>伊心享车</td><td>PA广东分公司</td><td>广东平安增城车商一部-中升增悦</td><td>车商</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-pending">待完善</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">8</td><td>CUST-008</td><td>东南客户组</td><td>壹直购平台</td><td>PA广东分公司</td><td>PA广分-花都-广州嘉美</td><td>BTP</td><td>积分消费</td><td>不统计</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">9</td><td>CUST-009</td><td>西南联合客户</td><td>伊心享车</td><td>PA广东分公司</td><td>广东平安集团二部-广州广汽商贸长润汽车</td><td>车商</td><td>积分上账</td><td>批量分发</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">10</td><td class="empty-value">-</td><td class="empty-value">-</td><td>汽集平台</td><td>PA广东分公司</td><td>7月后-PA广分-市区-嘉誉</td><td>综代</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-pending">待完善</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">11</td><td>CUST-011</td><td>华南分公司客户</td><td>趣驾平台</td><td>广东RB</td><td>RB-广州区域-94折</td><td>RB-电销渠道</td><td>积分发放</td><td>批量分发</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">12</td><td>CUST-012</td><td>华东客户组</td><td>壹直购平台</td><td>PA广东分公司</td><td>PA广分-中山</td><td>车商</td><td>积分消费</td><td>不统计</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">13</td><td class="empty-value">-</td><td class="empty-value">-</td><td>壹直购平台</td><td>PA广东分公司</td><td>PA广分-增城-广州康众</td><td>综代</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-pending">待完善</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">14</td><td>CUST-014</td><td>东北联合客户</td><td>壹直购平台</td><td>南菱集团</td><td>南菱-广州南菱旗盛汽车有限公司</td><td>南菱渠道</td><td>积分上账</td><td>批量分发</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                                <tr><td class="index-col">15</td><td>CUST-015</td><td>西北客户组</td><td>壹直购平台</td><td>PA广东分公司</td><td>PA广分-湛江-广州康众</td><td>综代</td><td>积分发放</td><td>批量分发</td><td><span class="status-tag status-completed">已完成</span></td><td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <span class="page-info">共 1,024 条</span>
+                            <button class="page-btn" disabled>上一页</button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">5</button>
+                            <span class="page-ellipsis">...</span>
+                            <button class="page-btn">68</button>
+                            <button class="page-btn">下一页</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== 区域管理视图 ========== -->
+                <div class="view" id="region-view">
+                    <div class="search-bar">
+                        <input type="text" class="search-input" placeholder="请输入区域名称">
+                        <select class="search-select">
+                            <option value="">请选择使用平台</option>
+                            <option value="qujiabao">趣家宝平台</option>
+                            <option value="yizhigou">壹直购平台</option>
+                            <option value="yixincar">伊心享车平台</option>
+                        </select>
+                        <button class="btn btn-primary">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <span>查找</span>
+                        </button>
+                        <button class="btn btn-accent" onclick="openRegionModal()">
+                            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <span>添加</span>
+                        </button>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="index-col">序号</th>
+                                    <th>区域编号</th>
+                                    <th>区域名称</th>
+                                    <th>区域类型</th>
+                                    <th>地址</th>
+                                    <th>负责人</th>
+                                    <th>联系电话</th>
+                                    <th>区域</th>
+                                    <th>区域全名</th>
+                                    <th>电子邮箱</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="index-col">1</td><td>061018</td><td>RB-广州区域-延期94折</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">2</td><td>362001</td><td>创展</td><td>渠道</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">3</td><td>361001</td><td>国任财-广东</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">4</td><td>360000</td><td>国任财-广东</td><td>委托公司</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">5</td><td>352001</td><td>创展</td><td>渠道</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">6</td><td>351001</td><td>富德-广州</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">7</td><td>350000</td><td>富德-广州</td><td>委托公司</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">8</td><td>011140</td><td>外部-PA广分-市区-精算-转保</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">9</td><td>291027</td><td>7月后-PA广分-韶关</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">10</td><td>291026</td><td>7月后-PA广分-肇庆</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">11</td><td>011139</td><td>PA广分-揭阳-广州瑞信-转保</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">12</td><td>011138</td><td>PA广分-阳江-广州瑞信-转保</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">13</td><td>011137</td><td>PA广分-肇庆-广州瑞信-转保</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">14</td><td>012020</td><td>创展电销</td><td>渠道</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                                <tr><td class="index-col">15</td><td>011136</td><td>PA广分-肇庆-广州瑞信</td><td>区域</td><td class="empty-value">-</td><td class="empty-value">-</td><td class="empty-value">-</td><td>全部</td><td class="empty-value">-</td><td class="empty-value">-</td><td><span class="status-tag status-active">可用</span></td><td><div class="action-btns"><button class="btn-small btn-edit">编辑</button><button class="btn-small btn-config">校验配置</button></div></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <span class="page-info">共 128 条</span>
+                            <button class="page-btn" disabled>上一页</button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">5</button>
+                            <span class="page-ellipsis">...</span>
+                            <button class="page-btn">9</button>
+                            <button class="page-btn">下一页</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== 每日账单数据视图 ========== -->
+                <div class="view" id="dailyBill-view">
+                    <!-- 搜索栏 -->
+                    <div class="search-bar">
+                        <input type="date" class="search-input" placeholder="请选择日期">
+                        <select class="search-select">
+                            <option value="">请选择产品</option>
+                            <option value="points">积分</option>
+                            <option value="batch">批量</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择产品分类</option>
+                            <option value="points_account">积分上账</option>
+                            <option value="points_issue">积分发放</option>
+                            <option value="points_consume">积分消费</option>
+                            <option value="batch_issue">批量分发</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择机构</option>
+                            <option value="增城">增城</option>
+                            <option value="增城人保">增城人保</option>
+                            <option value="广州人保">广州人保</option>
+                            <option value="集团二部">集团二部</option>
+                            <option value="惠州">惠州</option>
+                            <option value="江门">江门</option>
+                            <option value="花都">花都</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择渠道</option>
+                            <option value="车商">车商</option>
+                            <option value="电销">电销</option>
+                            <option value="综拓">综拓</option>
+                            <option value="创展">创展</option>
+                        </select>
+                        <button class="btn btn-primary">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <span>查找</span>
+                        </button>
+                    </div>
+
+                    <!-- 表格 -->
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="index-col">序号</th>
+                                    <th>日期</th>
+                                    <th>产品</th>
+                                    <th>产品分类</th>
+                                    <th>机构</th>
+                                    <th>渠道</th>
+                                    <th>上账金额</th>
+                                    <th>发放金额</th>
+                                    <th>成功金额</th>
+                                    <th>当天成功金额</th>
+                                    <th>重提金额</th>
+                                    <th>汇聚支付</th>
+                                    <th>新生支付</th>
+                                    <th>易通达支付</th>
+                                    <th>线下微信</th>
+                                    <th>线下支付</th>
+                                    <th>失败</th>
+                                    <th>结算单价</th>
+                                    <th>销售金额</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="index-col">1</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城</td><td>车商</td><td>150453</td><td>1708.92</td><td>1708.92</td><td>0</td><td>0</td><td>1708.92</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>148744.08</td></tr>
+                                <tr><td class="index-col">2</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城</td><td>车商</td><td>3687</td><td>3687</td><td>3687</td><td>0</td><td>0</td><td>4541.84</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>0</td></tr>
+                                <tr><td class="index-col">3</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城人保</td><td>车商</td><td>5790</td><td>5790</td><td>5790</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>5661.7</td></tr>
+                                <tr><td class="index-col">4</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>0</td><td>1078470</td><td>333406.72</td><td>333406.72</td><td>0</td><td>0</td><td>333406.72</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>1143178.2</td></tr>
+                                <tr><td class="index-col">5</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>增城</td><td>车商</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1042.46</td><td>0</td><td>1042.46</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>745063.28</td></tr>
+                                <tr><td class="index-col">6</td><td>6月9日</td><td>积分</td><td>积分消费</td><td>集团二部</td><td>车商</td><td>0</td><td>0</td><td>506</td><td>0</td><td>475.64</td><td>0</td><td>475.64</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>521.18</td></tr>
+                                <tr><td class="index-col">7</td><td>6月9日</td><td>积分</td><td>积分消费</td><td>惠州</td><td>综拓</td><td>0</td><td>0</td><td>67</td><td>0</td><td>67</td><td>0</td><td>67</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>73.03</td></tr>
+                                <tr><td class="index-col">8</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>0</td><td>85.5</td><td>85.5</td><td>0</td><td>0</td><td>0</td><td>85.5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>0</td></tr>
+                                <tr><td class="index-col">9</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>0</td><td>1204.14</td><td>1204.14</td><td>0</td><td>1204.14</td><td>0</td><td>1204.14</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>0</td></tr>
+                                <tr><td class="index-col">10</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>增城</td><td>车商</td><td>30000</td><td>30000</td><td>30000</td><td>0</td><td>0</td><td>0</td><td>30000</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>32700</td></tr>
+                                <tr><td class="index-col">11</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>江门</td><td>创展</td><td>0</td><td>211458.18</td><td>211458.18</td><td>0</td><td>0</td><td>0</td><td>211458.18</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.11</td><td>234718.58</td></tr>
+                                <tr><td class="index-col">12</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>花都</td><td>创展</td><td>202669.31</td><td>183606.03</td><td>183606.03</td><td>0</td><td>0</td><td>0</td><td>183606.03</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>200130.57</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <span class="page-info">共 12 条</span>
+                            <button class="page-btn" disabled>上一页</button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn" disabled>下一页</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑弹窗 -->
+    <div id="editModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">编辑客户信息</div>
+                <button class="modal-close" onclick="closeModal()">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">客户ID <span class="required">*</span></label>
+                        <select class="form-select" id="customerId" onchange="updateCustomerName()">
+                            <option value="">请选择</option>
+                            <option value="CUST-001">CUST-001</option>
+                            <option value="CUST-002">CUST-002</option>
+                            <option value="CUST-003">CUST-003</option>
+                            <option value="CUST-004">CUST-004</option>
+                            <option value="CUST-005">CUST-005</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">关联客户名称</label>
+                        <input type="text" class="form-input" id="customerName" placeholder="选择客户ID后自动带出" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">平台</label>
+                        <input type="text" class="form-input" id="platform" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">委托公司</label>
+                        <input type="text" class="form-input" id="company" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">区域</label>
+                        <input type="text" class="form-input" id="region" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">渠道</label>
+                        <input type="text" class="form-input" id="channel" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">积分 <span class="required">*</span></label>
+                        <select class="form-select" id="points">
+                            <option value="">请选择统计维度</option>
+                            <option value="points_account">积分上账</option>
+                            <option value="points_issue">积分发放</option>
+                            <option value="points_consume">积分消费</option>
+                            <option value="none">不统计</option>
+                        </select>
+                        <div class="form-hint">选择积分产品数据的统计维度</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">批量 <span class="required">*</span></label>
+                        <select class="form-select" id="batch">
+                            <option value="">请选择统计维度</option>
+                            <option value="points_issue">积分发放</option>
+                            <option value="batch_issue">批量分发</option>
+                            <option value="none">不统计</option>
+                        </select>
+                        <div class="form-hint">选择批量产品数据的统计维度</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal()">取消</button>
+                <button class="btn-confirm" onclick="saveCustomer()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 区域管理创建弹窗 -->
+    <div id="regionModal" class="modal-overlay" onclick="closeRegionModalOnOverlay(event)">
+        <div class="modal" style="max-width: 640px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">创建</div>
+                <button class="modal-close" onclick="closeRegionModal()">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="region-form">
+                    <div class="form-row">
+                        <label class="form-label">所属运营商 <span class="required">*</span></label>
+                        <select class="form-select" id="regionOperator">
+                            <option value="">请选择使用平台</option>
+                            <option value="qujiabao">趣驾宝平台</option>
+                            <option value="yizhigou">壹直购平台</option>
+                            <option value="qijitong">汽集平台</option>
+                            <option value="yixincar">伊心享车平台</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">区域名称 <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="regionName" placeholder="请输入区域名称">
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">区域类型 <span class="required">*</span></label>
+                        <select class="form-select" id="regionType" onchange="updateCompanyOptions()">
+                            <option value="">请选择</option>
+                            <option value="company">委托公司</option>
+                            <option value="region">区域</option>
+                            <option value="channel">渠道</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">所属委托公司 <span class="required">*</span></label>
+                        <select class="form-select" id="regionCompany">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">服务公司地址</label>
+                        <input type="text" class="form-input" id="regionAddress" placeholder="请输入服务公司地址">
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">负责人</label>
+                        <input type="text" class="form-input" id="regionManager" placeholder="请输入负责人">
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">联系电话</label>
+                        <input type="text" class="form-input" id="regionPhone" placeholder="请输入联系电话">
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">区域</label>
+                        <select class="form-select" id="regionArea">
+                            <option value="">请选择</option>
+                            <option value="all">全部</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">区域全名</label>
+                        <input type="text" class="form-input" id="regionFullName" placeholder="例如广东省广州市天河区">
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">电子邮箱</label>
+                        <input type="text" class="form-input" id="regionEmail" placeholder="电子邮箱">
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">状态</label>
+                        <select class="form-select" id="regionStatus">
+                            <option value="active">可用</option>
+                            <option value="inactive">不可用</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeRegionModal()">取消</button>
+                <button class="btn-confirm" onclick="saveRegion()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="toastMsg">保存成功</span>
+    </div>
+
+    <script>
+        // 视图切换
+        function switchView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+
+            if (viewName === 'customer') {
+                document.getElementById('customer-view').classList.add('active');
+                document.querySelectorAll('.menu-item')[0].classList.add('active');
+                document.getElementById('breadcrumb').innerHTML =
+                    '<span>首页</span><span class="sep">/</span><span>业务管理</span><span class="sep">/</span><span class="current">客户管理</span>';
+                document.title = '客户管理 - 积分运营平台';
+            } else if (viewName === 'region') {
+                document.getElementById('region-view').classList.add('active');
+                document.querySelectorAll('.menu-item')[1].classList.add('active');
+                document.getElementById('breadcrumb').innerHTML =
+                    '<span>首页</span><span class="sep">/</span><span>业务管理</span><span class="sep">/</span><span class="current">区域管理</span>';
+                document.title = '区域管理 - 积分运营平台';
+            } else if (viewName === 'dailyBill') {
+                document.getElementById('dailyBill-view').classList.add('active');
+                document.querySelectorAll('.menu-item')[2].classList.add('active');
+                document.getElementById('breadcrumb').innerHTML =
+                    '<span>首页</span><span class="sep">/</span><span>业务管理</span><span class="sep">/</span><span class="current">每日账单数据</span>';
+                document.title = '每日账单数据 - 积分运营平台';
+            }
+        }
+
+        // 客户ID与名称映射
+        const customerMap = {
+            'CUST-001': '华北分公司客户',
+            'CUST-002': '华东分公司客户',
+            'CUST-003': '华南客户组',
+            'CUST-004': '西南联合客户',
+            'CUST-005': '华中联合客户'
+        };
+
+        function openModal(btn) {
+            // 获取当前行数据
+            const row = btn.closest('tr');
+            const cells = row.querySelectorAll('td');
+            const statusText = cells[9] ? cells[9].textContent.trim() : '';
+            const isCompleted = statusText === '已完成';
+
+            // 提取行数据（根据表格列顺序）
+            // cells[0]=序号, [1]=客户ID, [2]=客户名称, [3]=平台, [4]=委托公司, [5]=区域, [6]=渠道, [7]=积分, [8]=批量, [9]=状态
+            const customerIdVal = cells[1] ? cells[1].textContent.trim() : '';
+            const customerNameVal = cells[2] ? cells[2].textContent.trim() : '';
+            const platformVal = cells[3] ? cells[3].textContent.trim() : '';
+            const companyVal = cells[4] ? cells[4].textContent.trim() : '';
+            const regionVal = cells[5] ? cells[5].textContent.trim() : '';
+            const channelVal = cells[6] ? cells[6].textContent.trim() : '';
+            const pointsVal = cells[7] ? cells[7].textContent.trim() : '';
+            const batchVal = cells[8] ? cells[8].textContent.trim() : '';
+
+            // 映射显示文本到 select 的 value
+            const pointsMap = { '积分上账': 'points_account', '积分发放': 'points_issue', '积分消费': 'points_consume', '不统计': 'none' };
+            const batchMap = { '积分发放': 'points_issue', '批量分发': 'batch_issue', '不统计': 'none' };
+
+            // 填充表单
+            const customerIdSelect = document.getElementById('customerId');
+            const customerNameInput = document.getElementById('customerName');
+            const platformInput = document.getElementById('platform');
+            const companyInput = document.getElementById('company');
+            const regionInput = document.getElementById('region');
+            const channelInput = document.getElementById('channel');
+            const pointsSelect = document.getElementById('points');
+            const batchSelect = document.getElementById('batch');
+
+            if (isCompleted) {
+                // 已完成状态：显示当前值
+                // 客户ID
+                if (customerIdVal && customerIdVal !== '-') {
+                    let idFound = false;
+                    for (let i = 0; i < customerIdSelect.options.length; i++) {
+                        if (customerIdSelect.options[i].text === customerIdVal) {
+                            customerIdSelect.selectedIndex = i;
+                            idFound = true;
+                            break;
+                        }
+                    }
+                    if (!idFound) {
+                        // 如果选项中没有，添加一个临时选项
+                        const opt = document.createElement('option');
+                        opt.value = customerIdVal;
+                        opt.textContent = customerIdVal;
+                        customerIdSelect.appendChild(opt);
+                        customerIdSelect.value = customerIdVal;
+                    }
+                } else {
+                    customerIdSelect.value = '';
+                }
+                customerNameInput.value = (customerNameVal && customerNameVal !== '-') ? customerNameVal : '';
+                platformInput.value = (platformVal && platformVal !== '-') ? platformVal : '';
+                companyInput.value = (companyVal && companyVal !== '-') ? companyVal : '';
+                regionInput.value = (regionVal && regionVal !== '-') ? regionVal : '';
+                channelInput.value = (channelVal && channelVal !== '-') ? channelVal : '';
+                pointsSelect.value = pointsMap[pointsVal] || '';
+                batchSelect.value = batchMap[batchVal] || '';
+            } else {
+                // 待完善状态：平台、委托公司、区域、渠道显示列表中的实际数据
+                customerIdSelect.value = '';
+                customerNameInput.value = '';
+                platformInput.value = (platformVal && platformVal !== '-') ? platformVal : '';
+                companyInput.value = (companyVal && companyVal !== '-') ? companyVal : '';
+                regionInput.value = (regionVal && regionVal !== '-') ? regionVal : '';
+                channelInput.value = (channelVal && channelVal !== '-') ? channelVal : '';
+                pointsSelect.value = '';
+                batchSelect.value = '';
+            }
+
+            document.getElementById('editModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target === event.currentTarget) closeModal();
+        }
+
+        function updateCustomerName() {
+            const id = document.getElementById('customerId').value;
+            const nameInput = document.getElementById('customerName');
+            nameInput.value = (id && customerMap[id]) ? customerMap[id] : '';
+        }
+
+        function saveCustomer() {
+            const id = document.getElementById('customerId').value;
+            const points = document.getElementById('points').value;
+            const batch = document.getElementById('batch').value;
+
+            if (!id) { showToast('请选择客户ID', 'error'); return; }
+            if (!points) { showToast('请选择积分统计维度', 'error'); return; }
+            if (!batch) { showToast('请选择批量统计维度', 'error'); return; }
+
+            closeModal();
+            showToast('保存成功');
+        }
+
+        function showToast(msg, type) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            if (type === 'error') {
+                toast.style.background = '#ef4444';
+                toast.style.boxShadow = '0 4px 16px rgba(239, 68, 68, 0.3)';
+            } else {
+                toast.style.background = 'var(--success-text)';
+                toast.style.boxShadow = '0 4px 16px rgba(5, 150, 105, 0.3)';
+            }
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { closeModal(); closeRegionModal(); }
+        });
+
+        // ========== 区域管理创建弹窗 ==========
+        // 已新增的委托公司列表（模拟数据，实际应从后端获取）
+        const companyList = [
+            'PA广东分公司-费用处理',
+            'PA广东分公司',
+            '广东RB',
+            '南菱集团',
+            '国任财-广东',
+            '富德-广州'
+        ];
+
+        function openRegionModal() {
+            document.getElementById('regionModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRegionModal() {
+            document.getElementById('regionModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeRegionModalOnOverlay(event) {
+            if (event.target === event.currentTarget) closeRegionModal();
+        }
+
+        // 根据区域类型更新委托公司下拉选项
+        function updateCompanyOptions() {
+            const type = document.getElementById('regionType').value;
+            const companySelect = document.getElementById('regionCompany');
+            companySelect.innerHTML = '<option value="">请选择</option>';
+
+            if (type === 'company') {
+                // 委托公司类型时，不需要选择所属委托公司
+                companySelect.disabled = true;
+                companySelect.innerHTML = '<option value="">-</option>';
+            } else {
+                companySelect.disabled = false;
+                companyList.forEach(name => {
+                    const opt = document.createElement('option');
+                    opt.value = name;
+                    opt.textContent = name;
+                    companySelect.appendChild(opt);
+                });
+            }
+        }
+
+        function saveRegion() {
+            const operator = document.getElementById('regionOperator').value;
+            const name = document.getElementById('regionName').value.trim();
+            const type = document.getElementById('regionType').value;
+            const company = document.getElementById('regionCompany').value;
+
+            if (!operator) { showToast('请选择所属运营商', 'error'); return; }
+            if (!name) { showToast('请输入区域名称', 'error'); return; }
+            if (!type) { showToast('请选择区域类型', 'error'); return; }
+            if (type !== 'company' && !company) { showToast('请选择所属委托公司', 'error'); return; }
+
+            // 同步到客户管理
+            syncToCustomer(operator, name, type, company);
+
+            closeRegionModal();
+            showToast('创建成功，已同步到客户管理');
+        }
+
+        // 区域/渠道新增后同步到客户管理
+        function syncToCustomer(operator, name, type, company) {
+            const tbody = document.querySelector('#customer-view tbody');
+            const rows = tbody.querySelectorAll('tr');
+            const nextIndex = rows.length + 1;
+
+            // 获取平台显示名
+            const operatorSelect = document.getElementById('regionOperator');
+            const platformName = operatorSelect.options[operatorSelect.selectedIndex].text;
+
+            // 委托公司名称：如果类型是委托公司，则区域名称就是委托公司
+            const companyName = type === 'company' ? name : (company || '-');
+            // 区域名称：如果类型是区域，则使用区域名称
+            const regionName = type === 'region' ? name : '-';
+            // 渠道名称：如果类型是渠道，则使用渠道名称
+            const channelName = type === 'channel' ? name : '-';
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `<td class="index-col">${nextIndex}</td>` +
+                `<td class="empty-value">-</td>` +
+                `<td class="empty-value">-</td>` +
+                `<td>${platformName}</td>` +
+                `<td>${companyName}</td>` +
+                `<td>${regionName}</td>` +
+                `<td>${channelName}</td>` +
+                `<td class="empty-value">-</td>` +
+                `<td class="empty-value">-</td>` +
+                `<td><span class="status-tag status-pending">待完善</span></td>` +
+                `<td><div class="action-btns"><button class="btn-small btn-edit" onclick="openModal(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button></div></td></tr>`;
+
+            tbody.appendChild(newRow);
+
+            // 更新客户管理总条数
+            const pageInfo = document.querySelector('#customer-view .page-info');
+            if (pageInfo) {
+                const currentText = pageInfo.textContent;
+                const match = currentText.match(/共\s+([\d,]+)\s*条/);
+                if (match) {
+                    const currentCount = parseInt(match[1].replace(/,/g, ''));
+                    pageInfo.textContent = `共 ${(currentCount + 1).toLocaleString()} 条`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
