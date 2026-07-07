@@ -1115,7 +1115,7 @@
                                 <span class="range-label">天 结束</span>
                             </div>
                         </div>
-                        <div class="form-hint" style="margin-top:6px;">示例：7月15日发送时，将筛选过期日期在 7月16日 ~ 8月14日 的积分</div>
+                        <div class="form-hint" id="smsHint" style="margin-top:6px;">示例：7月15日发送时，将筛选过期日期在 7月16日 ~ 8月14日 的积分</div>
                     </div>
 
                     <!-- 积分余额 -->
@@ -1135,12 +1135,36 @@
                         <label class="form-label">定时发送日期 <span class="required">*</span></label>
                         <div class="day-select-group">
                             <label class="day-chip"><input type="checkbox" value="1" class="day-chip-input"> <span>1日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="2" class="day-chip-input"> <span>2日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="3" class="day-chip-input"> <span>3日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="4" class="day-chip-input"> <span>4日</span></label>
                             <label class="day-chip"><input type="checkbox" value="5" class="day-chip-input"> <span>5日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="6" class="day-chip-input"> <span>6日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="7" class="day-chip-input"> <span>7日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="8" class="day-chip-input"> <span>8日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="9" class="day-chip-input"> <span>9日</span></label>
                             <label class="day-chip"><input type="checkbox" value="10" class="day-chip-input"> <span>10日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="11" class="day-chip-input"> <span>11日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="12" class="day-chip-input"> <span>12日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="13" class="day-chip-input"> <span>13日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="14" class="day-chip-input"> <span>14日</span></label>
                             <label class="day-chip"><input type="checkbox" value="15" class="day-chip-input" checked> <span>15日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="16" class="day-chip-input"> <span>16日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="17" class="day-chip-input"> <span>17日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="18" class="day-chip-input"> <span>18日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="19" class="day-chip-input"> <span>19日</span></label>
                             <label class="day-chip"><input type="checkbox" value="20" class="day-chip-input"> <span>20日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="21" class="day-chip-input"> <span>21日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="22" class="day-chip-input"> <span>22日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="23" class="day-chip-input"> <span>23日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="24" class="day-chip-input"> <span>24日</span></label>
                             <label class="day-chip"><input type="checkbox" value="25" class="day-chip-input"> <span>25日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="26" class="day-chip-input"> <span>26日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="27" class="day-chip-input"> <span>27日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="28" class="day-chip-input"> <span>28日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="29" class="day-chip-input"> <span>29日</span></label>
                             <label class="day-chip"><input type="checkbox" value="30" class="day-chip-input" checked> <span>30日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="31" class="day-chip-input"> <span>31日</span></label>
                         </div>
                     </div>
 
@@ -1418,6 +1442,7 @@
             document.getElementById('smsModal').classList.add('active');
             document.body.style.overflow = 'hidden';
             updateSmsPreview();
+            updateSmsHint();
         }
 
         function closeSmsModal() {
@@ -1460,6 +1485,27 @@
 
             const preview = `每月${daysText} ${sendTime} 发送短信，提醒积分状态为【${statusText}】且积分过期时间在【发送日+${startOffset}天 ~ 发送日+${endOffset}天】范围内的用户。`;
             document.getElementById('smsPreviewContent').textContent = preview;
+            updateSmsHint();
+        }
+
+        function updateSmsHint() {
+            const startOffset = parseInt(document.getElementById('smsExpireStartOffset').value || 1, 10);
+            const endOffset = parseInt(document.getElementById('smsExpireEndOffset').value || 30, 10);
+            const dayChips = document.querySelectorAll('.day-chip input:checked');
+            const days = Array.from(dayChips).map(cb => parseInt(cb.value, 10)).sort((a, b) => a - b);
+            const sendDay = days.length > 0 ? days[0] : 15;
+
+            const now = new Date();
+            const sendDate = new Date(now.getFullYear(), now.getMonth(), sendDay);
+            const startDate = new Date(sendDate);
+            startDate.setDate(sendDate.getDate() + startOffset);
+            const endDate = new Date(sendDate);
+            endDate.setDate(sendDate.getDate() + endOffset);
+
+            const fmt = (d) => `${d.getMonth() + 1}月${d.getDate()}日`;
+            const hint = `示例：${fmt(sendDate)}发送时，将筛选过期日期在 ${fmt(startDate)} ~ ${fmt(endDate)} 的积分`;
+            const hintEl = document.getElementById('smsHint');
+            if (hintEl) hintEl.textContent = hint;
         }
 
         function saveSmsSetting() {
