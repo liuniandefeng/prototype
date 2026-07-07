@@ -210,6 +210,19 @@
         .btn-primary:hover { background: var(--primary-hover); box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3); }
         .btn-accent { background: var(--accent); color: #fff; }
         .btn-accent:hover { background: var(--accent-hover); box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3); }
+        .search-btn {
+            height: 36px; padding: 0 18px; border-radius: 6px; font-size: 13px;
+            cursor: pointer; border: none; display: inline-flex;
+            align-items: center; justify-content: center; gap: 6px;
+            transition: all 0.2s ease;
+            font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+            font-weight: 500; white-space: nowrap;
+            background: var(--primary); color: #fff;
+        }
+        .search-btn:hover { background: var(--primary-hover); box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3); }
+        .search-btn svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .search-btn.btn-reset { background: #fff; color: var(--text-secondary); border: 1px solid var(--border); }
+        .search-btn.btn-reset:hover { background: var(--table-header-bg); color: var(--text); border-color: var(--primary); }
 
         /* ========== 表格容器 ========== */
         .table-container {
@@ -234,7 +247,7 @@
         /* 状态标签 */
         .status-tag {
             display: inline-flex; align-items: center; gap: 4px;
-            padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; line-height: 1.5;
+            padding: 1px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; line-height: 1.3;
         }
         .status-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
         .status-completed { background: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-border); }
@@ -245,12 +258,13 @@
         .status-active::before { background: var(--success-text); }
 
         /* 操作按钮 */
-        .action-btns { display: flex; gap: 8px; }
+        .action-btns { display: flex; gap: 4px; flex-wrap: nowrap; }
         .btn-small {
-            height: 28px; padding: 0 12px; font-size: 12px; border-radius: 5px;
+            height: 26px; padding: 0 8px; font-size: 12px; border-radius: 4px;
             cursor: pointer; transition: all 0.2s ease;
             font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
-            font-weight: 500; display: inline-flex; align-items: center; gap: 4px;
+            font-weight: 500; display: inline-flex; align-items: center; gap: 3px;
+            white-space: nowrap;
         }
         .btn-small svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .btn-edit { background: var(--primary); color: #fff; border: none; }
@@ -259,6 +273,50 @@
         .btn-view:hover { background: var(--primary-light); }
         .btn-config { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
         .btn-config:hover { background: var(--primary-light); }
+        .btn-small.btn-primary { background: var(--primary); color: #fff; border: none; }
+        .btn-small.btn-primary:hover { background: var(--primary-hover); box-shadow: 0 2px 6px rgba(14, 165, 233, 0.25); }
+        .btn-small.btn-danger { background: #fff; color: #ef4444; border: 1px solid #ef4444; }
+        .btn-small.btn-danger:hover { background: #fef2f2; }
+        .btn-small.btn-sms { background: #fff; color: #10b981; border: 1px solid #10b981; }
+        .btn-small.btn-sms:hover { background: #ecfdf5; }
+
+        /* 短信弹窗表单 */
+        .sms-form { display: flex; flex-direction: column; gap: 16px; }
+        .sms-form .form-row { display: flex; flex-direction: column; gap: 6px; }
+        .sms-form .form-row.full-width { grid-column: 1 / -1; }
+        .checkbox-group { display: flex; gap: 16px; flex-wrap: wrap; }
+        .checkbox-label { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text); cursor: pointer; }
+        .checkbox-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
+        .range-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .range-item { display: inline-flex; align-items: center; gap: 6px; }
+        .range-label { font-size: 13px; color: var(--text-secondary); white-space: nowrap; }
+        .range-input { width: 70px !important; text-align: center; padding: 0 4px !important; }
+        .range-sep { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .day-select-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .day-chip { position: relative; cursor: pointer; }
+        .day-chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .day-chip span {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-width: 44px; height: 30px; padding: 0 10px;
+            border: 1px solid var(--border); border-radius: 6px;
+            font-size: 12px; color: var(--text-secondary); background: #fff;
+            transition: all 0.2s ease; user-select: none;
+        }
+        .day-chip input:checked + span { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .day-chip:hover span { border-color: var(--primary); color: var(--primary); }
+        .toggle-switch { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: relative; width: 44px; height: 24px; background: #e2e8f0; border-radius: 24px; transition: 0.3s; flex-shrink: 0; }
+        .toggle-slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+        .toggle-switch input:checked + .toggle-slider { background: var(--primary); }
+        .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+        .toggle-label { font-size: 13px; color: var(--text); font-weight: 500; }
+        .sms-preview {
+            background: #f8fafc; border: 1px dashed var(--border); border-radius: 8px;
+            padding: 14px 16px; margin-top: 4px;
+        }
+        .preview-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; font-family: 'Noto Sans SC', sans-serif; }
+        .preview-content { font-size: 12px; color: var(--text-secondary); line-height: 1.7; }
 
         /* ========== 分页 ========== */
         .pagination {
@@ -285,6 +343,8 @@
         .menu-item { opacity: 0; animation: menuFadeIn 0.35s ease forwards; }
         .menu-group .menu-item:nth-child(1) { animation-delay: 0.05s; }
         .menu-group .menu-item:nth-child(2) { animation-delay: 0.1s; }
+        .menu-group .menu-item:nth-child(3) { animation-delay: 0.15s; }
+        .menu-group .menu-item:nth-child(4) { animation-delay: 0.2s; }
 
         @keyframes rowFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         tbody tr { opacity: 0; animation: rowFadeIn 0.3s ease forwards; }
@@ -303,6 +363,7 @@
         tbody tr:nth-child(13) { animation-delay: 0.56s; }
         tbody tr:nth-child(14) { animation-delay: 0.60s; }
         tbody tr:nth-child(15) { animation-delay: 0.64s; }
+        tbody tr:nth-child(16) { animation-delay: 0.68s; }
 
         @keyframes cardFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .search-bar { animation: cardFadeIn 0.4s ease forwards; }
@@ -406,6 +467,12 @@
                         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     </div>
                     <div class="menu-label">每日账单数据</div>
+                </a>
+                <a class="menu-item" href="#" onclick="switchView('areaAccount')">
+                    <div class="menu-icon">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <div class="menu-label">区域发放账户管理</div>
                 </a>
             </div>
         </aside>
@@ -701,6 +768,7 @@
                                     <th>积分权益</th>
                                     <th>积分转让</th>
                                     <th>当天成功金额</th>
+                                    <th>当天失败金额</th>
                                     <th>重提成功金额</th>
                                     <th>汇聚支付</th>
                                     <th>新生支付</th>
@@ -719,18 +787,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td class="index-col">1</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城</td><td>车商</td><td>002</td><td>150453</td><td>1708.92</td><td>0</td><td>3687</td><td>0</td><td>0</td><td>1708.92</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>148744.08</td></tr>
-                                <tr><td class="index-col">2</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城</td><td>车商</td><td>002</td><td>3687</td><td>3687</td><td>0</td><td>0</td><td>0</td><td>0</td><td>4541.84</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>0</td></tr>
-                                <tr><td class="index-col">3</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城人保</td><td>车商</td><td>003</td><td>5790</td><td>5790</td><td>5790</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>5661.7</td></tr>
-                                <tr><td class="index-col">4</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>004</td><td>0</td><td>1078470</td><td>0</td><td>0</td><td>333406.72</td><td>0</td><td>0</td><td>333406.72</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>1143178.2</td></tr>
-                                <tr><td class="index-col">5</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>增城</td><td>车商</td><td>005</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1042.46</td><td>0</td><td>1042.46</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>745063.28</td></tr>
-                                <tr><td class="index-col">6</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分消费</td><td>集团二部</td><td>车商</td><td>006</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>475.64</td><td>0</td><td>475.64</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>521.18</td></tr>
-                                <tr><td class="index-col">7</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分消费</td><td>惠州</td><td>综拓</td><td>007</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>67</td><td>0</td><td>67</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>73.03</td></tr>
-                                <tr><td class="index-col">8</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>008</td><td>0</td><td>85.5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>85.5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>0</td></tr>
-                                <tr><td class="index-col">9</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>009</td><td>0</td><td>1204.14</td><td>0</td><td>0</td><td>0</td><td>1204.14</td><td>0</td><td>1204.14</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>0</td></tr>
-                                <tr><td class="index-col">10</td><td>2025年6月</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>增城</td><td>车商</td><td>010</td><td>30000</td><td>30000</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>30000</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>32700</td></tr>
-                                <tr><td class="index-col">11</td><td>2025年6月</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>江门</td><td>创展</td><td>011</td><td>0</td><td>211458.18</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>211458.18</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.11</td><td>234718.58</td></tr>
-                                <tr><td class="index-col">12</td><td>2025年6月</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>花都</td><td>创展</td><td>012</td><td>202669.31</td><td>183606.03</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>183606.03</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>200130.57</td></tr>
+                                <tr><td class="index-col">1</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城</td><td>车商</td><td>002</td><td>150453</td><td>1708.92</td><td>0</td><td>3687</td><td>0</td><td>0</td><td>0</td><td>1708.92</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>148744.08</td></tr>
+                                <tr><td class="index-col">2</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城</td><td>车商</td><td>002</td><td>3687</td><td>3687</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>4541.84</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>0</td></tr>
+                                <tr><td class="index-col">3</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分上账</td><td>增城人保</td><td>车商</td><td>003</td><td>5790</td><td>5790</td><td>5790</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>5661.7</td></tr>
+                                <tr><td class="index-col">4</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>004</td><td>0</td><td>1078470</td><td>0</td><td>0</td><td>333406.72</td><td>0</td><td>0</td><td>0</td><td>333406.72</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>1143178.2</td></tr>
+                                <tr><td class="index-col">5</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>增城</td><td>车商</td><td>005</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1042.46</td><td>0</td><td>1042.46</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>745063.28</td></tr>
+                                <tr><td class="index-col">6</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分消费</td><td>集团二部</td><td>车商</td><td>006</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>475.64</td><td>0</td><td>475.64</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.03</td><td>521.18</td></tr>
+                                <tr><td class="index-col">7</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分消费</td><td>惠州</td><td>综拓</td><td>007</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>67</td><td>0</td><td>67</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>73.03</td></tr>
+                                <tr><td class="index-col">8</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>008</td><td>0</td><td>85.5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>85.5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>0</td></tr>
+                                <tr><td class="index-col">9</td><td>2025年6月</td><td>6月9日</td><td>积分</td><td>积分发放</td><td>广州人保</td><td>电销</td><td>009</td><td>0</td><td>1204.14</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1204.14</td><td>0</td><td>1204.14</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.06</td><td>0</td></tr>
+                                <tr><td class="index-col">10</td><td>2025年6月</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>增城</td><td>车商</td><td>010</td><td>30000</td><td>30000</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>30000</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>32700</td></tr>
+                                <tr><td class="index-col">11</td><td>2025年6月</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>江门</td><td>创展</td><td>011</td><td>0</td><td>211458.18</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>211458.18</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.11</td><td>234718.58</td></tr>
+                                <tr><td class="index-col">12</td><td>2025年6月</td><td>6月9日</td><td>批量</td><td>批量分发</td><td>花都</td><td>创展</td><td>012</td><td>202669.31</td><td>183606.03</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>183606.03</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1.09</td><td>200130.57</td></tr>
                             </tbody>
                         </table>
                         <div class="pagination">
@@ -738,6 +806,91 @@
                             <button class="page-btn" disabled>上一页</button>
                             <button class="page-btn active">1</button>
                             <button class="page-btn" disabled>下一页</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== 区域发放账户管理视图 ========== -->
+                <div class="view" id="areaAccount-view">
+                    <!-- 搜索栏 -->
+                    <div class="search-bar">
+                        <input type="text" class="search-input" placeholder="请输入账户名称">
+                        <input type="text" class="search-input" placeholder="请输入账户编码">
+                        <select class="search-select">
+                            <option value="">请选择平台</option>
+                            <option value="壹直购平台">壹直购平台</option>
+                            <option value="趣驾平台">趣驾平台</option>
+                            <option value="汽集平台">汽集平台</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择委托公司</option>
+                            <option value="PA广东分公司">PA广东分公司</option>
+                            <option value="广东RB">广东RB</option>
+                            <option value="南菱集团">南菱集团</option>
+                        </select>
+                        <select class="search-select">
+                            <option value="">请选择账户状态</option>
+                            <option value="启用">启用</option>
+                            <option value="停用">停用</option>
+                        </select>
+                        <button class="search-btn">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <span>查找</span>
+                        </button>
+                        <button class="search-btn btn-reset" onclick="this.closest('.search-bar').querySelectorAll('input, select').forEach(el => el.value = ''); return false;">
+                            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                            <span>重置</span>
+                        </button>
+                    </div>
+
+                    <!-- 表格 -->
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="index-col">序号</th>
+                                    <th>账户名称</th>
+                                    <th>账户编码</th>
+                                    <th>平台</th>
+                                    <th>区域</th>
+                                    <th>渠道</th>
+                                    <th>委托公司</th>
+                                    <th>服务公司</th>
+                                    <th>账户可发放总积分</th>
+                                    <th>账户状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="index-col">1</td><td>南菱-广州南菱广恒汽车销售服务有限公司</td><td>2067548492313373568</td><td>壹直购平台</td><td>南菱-广州南菱广恒汽车销售服务有限公司</td><td>南菱渠道</td><td>南菱集团</td><td>南菱业务专属</td><td>0.00</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">2</td><td>RB-广州区域-延期94折</td><td>2063920648354402304</td><td>趣驾平台</td><td>RB-广州区域-延期94折</td><td>RB-电销渠道</td><td>广东RB</td><td>RB业务专属（信）</td><td>154531.45</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">3</td><td>市区综拓</td><td>201380292716351872</td><td>壹直购平台</td><td>7月后-PA广分-市区</td><td>综拓</td><td>PA广东分公司</td><td>汇聚支付</td><td>5523274.30</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">4</td><td>花都综拓</td><td>2013802930126544384</td><td>壹直购平台</td><td>7月后-PA广分-花都</td><td>综拓</td><td>PA广东分公司</td><td>汇聚支付</td><td>3269545.00</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">5</td><td>番禺综拓</td><td>2013800663043872000</td><td>壹直购平台</td><td>7月后-PA广分-番禺</td><td>综拓</td><td>PA广东分公司</td><td>汇聚支付</td><td>2159310.00</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">6</td><td>增城综拓</td><td>2013800660159449600</td><td>壹直购平台</td><td>7月后-PA广分-增城</td><td>综拓</td><td>PA广东分公司</td><td>汇聚支付</td><td>1202888.00</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">7</td><td>开发区综拓</td><td>2013797734521893120</td><td>壹直购平台</td><td>7月后-PA广分-开发区</td><td>综拓</td><td>PA广东分公司</td><td>汇聚支付</td><td>1557815.00</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">8</td><td>江门综拓</td><td>2013797904254387200</td><td>壹直购平台</td><td>7月后-PA广分-江门</td><td>综拓</td><td>PA广东分公司</td><td>汇聚支付</td><td>2419031.00</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">9</td><td>惠州综拓</td><td>2013794658512582656</td><td>壹直购平台</td><td>7月后-PA广分-惠州</td><td>综拓</td><td>PA广东分公司</td><td>汇聚支付</td><td>2301253.38</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">10</td><td>增城XQD</td><td>20120732816769618432</td><td>壹直购平台</td><td>PA广分-增城-广州景众</td><td>综代</td><td>PA广东分公司</td><td>汇聚支付</td><td>20718595.40</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">11</td><td>花都BTP</td><td>20120732842830039040</td><td>壹直购平台</td><td>PA广分-花都-广州南菱</td><td>BTP</td><td>PA广东分公司</td><td>汇聚支付</td><td>3082042.20</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">12</td><td>花都XQD</td><td>20120732207982878720</td><td>壹直购平台</td><td>PA广分-花都-广州南菱</td><td>综代</td><td>PA广东分公司</td><td>汇聚支付</td><td>21769885.23</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">13</td><td>广益XQD</td><td>2012073172290569840</td><td>趣驾平台</td><td>7月后-PA广分-市区-广信</td><td>综代</td><td>PA广东分公司</td><td>汇聚支付</td><td>8235742.46</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">14</td><td>市区XQD</td><td>2012073130138466000</td><td>汽集平台</td><td>7月后-PA广分-市区-嘉誉</td><td>综代</td><td>PA广东分公司</td><td>汇聚支付</td><td>90070884.31</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">15</td><td>湛江XQD</td><td>20120583069144227840</td><td>壹直购平台</td><td>PA广分-湛江-广州康众</td><td>综代</td><td>PA广东分公司</td><td>汇聚支付</td><td>13294426.05</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                                <tr><td class="index-col">16</td><td>RB-广州区域-94折（车商）</td><td>2063920648354402304</td><td>趣驾平台</td><td>RB-广州区域-94折（车商）</td><td>车商</td><td>广东RB</td><td>RB业务专属（信）</td><td>4265769.00</td><td><span class="status-tag status-completed">启用</span></td><td><div class="action-btns"><button class="btn-small btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>编辑</button><button class="btn-small btn-primary">上账</button><button class="btn-small btn-sms" onclick="openSmsModal(this)">短信</button><button class="btn-small btn-danger">停用</button></div></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <span class="page-info">共 1,231 条</span>
+                            <button class="page-btn" disabled>上一页</button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">5</button>
+                            <span class="page-ellipsis">...</span>
+                            <button class="page-btn">77</button>
+                            <button class="page-btn">下一页</button>
                         </div>
                     </div>
                 </div>
@@ -813,7 +966,6 @@
                         <label class="form-label">批量 <span class="required">*</span></label>
                         <select class="form-select" id="batch">
                             <option value="">请选择统计维度</option>
-                            <option value="points_issue">积分发放</option>
                             <option value="batch_issue">批量分发</option>
                             <option value="none">不统计</option>
                         </select>
@@ -911,6 +1063,115 @@
         </div>
     </div>
 
+    <!-- 短信定时发放设置弹窗 -->
+    <div id="smsModal" class="modal-overlay" onclick="closeSmsModalOnOverlay(event)">
+        <div class="modal" style="max-width: 640px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">短信定时发放设置</div>
+                <button class="modal-close" onclick="closeSmsModal()">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="sms-form">
+                    <!-- 短信功能开关 -->
+                    <div class="form-row full-width">
+                        <label class="form-label">短信功能开关</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="smsToggle" checked onchange="toggleSmsForm(this)">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label" id="smsToggleLabel">已开启</span>
+                        </label>
+                    </div>
+
+                    <!-- 当前账户 -->
+                    <div class="form-row full-width">
+                        <label class="form-label">当前账户</label>
+                        <input type="text" class="form-input" id="smsAccountName" disabled>
+                    </div>
+
+                    <!-- 积分状态 -->
+                    <div class="form-row full-width">
+                        <label class="form-label">积分状态 <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label"><input type="checkbox" id="smsStatusUnclaimed" value="unclaimed" checked> <span>未领取</span></label>
+                            <label class="checkbox-label"><input type="checkbox" id="smsStatusClaimed" value="claimed" checked> <span>已领取</span></label>
+                        </div>
+                    </div>
+
+                    <!-- 积分过期时间范围 -->
+                    <div class="form-row full-width">
+                        <label class="form-label">积分过期时间范围 <span class="required">*</span></label>
+                        <div class="range-row">
+                            <div class="range-item">
+                                <span class="range-label">发送日 +</span>
+                                <input type="number" class="form-input range-input" id="smsExpireStartOffset" value="1" min="0">
+                                <span class="range-label">天 开始</span>
+                            </div>
+                            <span class="range-sep">至</span>
+                            <div class="range-item">
+                                <span class="range-label">发送日 +</span>
+                                <input type="number" class="form-input range-input" id="smsExpireEndOffset" value="30" min="1">
+                                <span class="range-label">天 结束</span>
+                            </div>
+                        </div>
+                        <div class="form-hint" style="margin-top:6px;">示例：7月15日发送时，将筛选过期日期在 7月16日 ~ 8月14日 的积分</div>
+                    </div>
+
+                    <!-- 积分余额 -->
+                    <div class="form-row full-width">
+                        <label class="form-label">积分余额条件</label>
+                        <div class="range-row">
+                            <div class="range-item">
+                                <span class="range-label">大于</span>
+                                <input type="number" class="form-input range-input" id="smsMinBalance" value="0" min="0">
+                                <span class="range-label">积分</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 定时发送日期 -->
+                    <div class="form-row full-width">
+                        <label class="form-label">定时发送日期 <span class="required">*</span></label>
+                        <div class="day-select-group">
+                            <label class="day-chip"><input type="checkbox" value="1" class="day-chip-input"> <span>1日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="5" class="day-chip-input"> <span>5日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="10" class="day-chip-input"> <span>10日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="15" class="day-chip-input" checked> <span>15日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="20" class="day-chip-input"> <span>20日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="25" class="day-chip-input"> <span>25日</span></label>
+                            <label class="day-chip"><input type="checkbox" value="30" class="day-chip-input" checked> <span>30日</span></label>
+                        </div>
+                    </div>
+
+                    <!-- 发送时间 -->
+                    <div class="form-row">
+                        <label class="form-label">发送时间 <span class="required">*</span></label>
+                        <input type="time" class="form-input" id="smsSendTime" value="09:00">
+                    </div>
+
+                    <!-- 短信内容模板 -->
+                    <div class="form-row full-width">
+                        <label class="form-label">短信内容模板</label>
+                        <textarea class="form-input" id="smsTemplate" rows="3" style="height:auto;padding:10px 12px;resize:vertical;" readonly>尊敬的用户，您的趣驾宝卡券即将过期，请及时前往微信搜索小程序趣驾宝登录并使用，逾期后将无法使用。</textarea>
+                    </div>
+
+                    <!-- 规则预览 -->
+                    <div class="sms-preview">
+                        <div class="preview-title">发送规则预览</div>
+                        <div class="preview-content" id="smsPreviewContent">
+                            每月15日、30日 09:00 发送短信，提醒积分状态为【未领取、已领取】且积分过期时间在【发送日+1天 ~ 发送日+30天】范围内的用户。
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeSmsModal()">取消</button>
+                <button class="btn-confirm" onclick="saveSmsSetting()">保存设置</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast -->
     <div id="toast" class="toast">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -941,6 +1202,12 @@
                 document.getElementById('breadcrumb').innerHTML =
                     '<span>首页</span><span class="sep">/</span><span>业务管理</span><span class="sep">/</span><span class="current">每日账单数据</span>';
                 document.title = '每日账单数据 - 积分运营平台';
+            } else if (viewName === 'areaAccount') {
+                document.getElementById('areaAccount-view').classList.add('active');
+                document.querySelectorAll('.menu-item')[3].classList.add('active');
+                document.getElementById('breadcrumb').innerHTML =
+                    '<span>首页</span><span class="sep">/</span><span>业务管理</span><span class="sep">/</span><span class="current">区域发放账户管理</span>';
+                document.title = '区域发放账户管理 - 积分运营平台';
             }
         }
 
@@ -1141,6 +1408,86 @@
         function closeRegionModalOnOverlay(event) {
             if (event.target === event.currentTarget) closeRegionModal();
         }
+
+        // ========== 短信定时发放设置弹窗 ==========
+        function openSmsModal(btn) {
+            const row = btn.closest('tr');
+            const cells = row.querySelectorAll('td');
+            const accountName = cells[1] ? cells[1].textContent.trim() : '';
+            document.getElementById('smsAccountName').value = accountName;
+            document.getElementById('smsModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            updateSmsPreview();
+        }
+
+        function closeSmsModal() {
+            document.getElementById('smsModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeSmsModalOnOverlay(event) {
+            if (event.target === event.currentTarget) closeSmsModal();
+        }
+
+        function toggleSmsForm(checkbox) {
+            const label = document.getElementById('smsToggleLabel');
+            const isOn = checkbox.checked;
+            label.textContent = isOn ? '已开启' : '已关闭';
+            const smsForm = checkbox.closest('.sms-form');
+            const inputs = smsForm.querySelectorAll('input:not(#smsToggle), select, textarea');
+            inputs.forEach(el => {
+                if (el.id !== 'smsAccountName') {
+                    el.disabled = !isOn;
+                }
+            });
+        }
+
+        function updateSmsPreview() {
+            const startOffset = document.getElementById('smsExpireStartOffset').value || 1;
+            const endOffset = document.getElementById('smsExpireEndOffset').value || 30;
+            const sendTime = document.getElementById('smsSendTime').value || '09:00';
+            const unclaimed = document.getElementById('smsStatusUnclaimed').checked;
+            const claimed = document.getElementById('smsStatusClaimed').checked;
+
+            const statusArr = [];
+            if (unclaimed) statusArr.push('未领取');
+            if (claimed) statusArr.push('已领取');
+            const statusText = statusArr.length ? statusArr.join('、') : '未选择';
+
+            const dayChips = document.querySelectorAll('.day-chip input:checked');
+            const days = Array.from(dayChips).map(cb => cb.value + '日');
+            const daysText = days.length ? days.join('、') : '未选择';
+
+            const preview = `每月${daysText} ${sendTime} 发送短信，提醒积分状态为【${statusText}】且积分过期时间在【发送日+${startOffset}天 ~ 发送日+${endOffset}天】范围内的用户。`;
+            document.getElementById('smsPreviewContent').textContent = preview;
+        }
+
+        function saveSmsSetting() {
+            const dayChips = document.querySelectorAll('.day-chip input:checked');
+            if (dayChips.length === 0) {
+                showToast('请至少选择一个发送日期');
+                return;
+            }
+            const unclaimed = document.getElementById('smsStatusUnclaimed').checked;
+            const claimed = document.getElementById('smsStatusClaimed').checked;
+            if (!unclaimed && !claimed) {
+                showToast('请至少选择一个积分状态');
+                return;
+            }
+            showToast('短信定时发放设置保存成功');
+            closeSmsModal();
+        }
+
+        // 监听短信设置表单变化，实时更新预览
+        document.addEventListener('DOMContentLoaded', function() {
+            const smsModal = document.getElementById('smsModal');
+            if (smsModal) {
+                smsModal.querySelectorAll('input, textarea').forEach(el => {
+                    el.addEventListener('change', updateSmsPreview);
+                    el.addEventListener('input', updateSmsPreview);
+                });
+            }
+        });
 
         // 根据区域类型更新委托公司下拉选项
         function updateCompanyOptions() {
